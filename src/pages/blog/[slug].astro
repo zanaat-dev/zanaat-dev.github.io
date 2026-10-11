@@ -87,14 +87,14 @@ const jsonLd = {
   .project img { width: calc(15 * var(--u)); height: auto; }
   .project:hover { color: var(--ink); }
   .translation { color: var(--accent); }
-  h1 { margin: 0; font-size: clamp(34px, calc(40 * var(--u)), 58px); font-weight: 600; line-height: 1.06; letter-spacing: -0.012em; text-wrap: balance; }
+  h1 { margin: 0; font-family: var(--serif); font-size: clamp(32px, calc(40 * var(--u)), 54px); font-weight: 400; line-height: 1.14; letter-spacing: -0.015em; text-wrap: balance; font-variation-settings: 'opsz' 144; }
   .lede { margin: 0; max-width: 60ch; font-size: clamp(18px, calc(17 * var(--u)), 23px); line-height: 1.45; color: #a9a9a6; text-wrap: pretty; }
 
   /* Reading text holds a readable size and measure whatever the page scale does. */
   .prose { max-width: 68ch; font-size: clamp(17px, calc(15 * var(--u)), 20px); line-height: 1.68; color: #d3d2cd; }
   .prose :global(> * + *) { margin-top: 1.1em; }
   .prose :global(p), .prose :global(ul), .prose :global(ol), .prose :global(blockquote), .prose :global(pre), .prose :global(figure) { margin-bottom: 0; }
-  .prose :global(h2) { margin: 2.2em 0 0; font-size: 1.45em; font-weight: 600; line-height: 1.2; letter-spacing: -0.008em; color: var(--ink); }
+  .prose :global(h2) { margin: 2.2em 0 0; font-family: var(--serif); font-size: 1.4em; font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
   .prose :global(h3) { margin: 1.8em 0 0; font-size: 1.15em; font-weight: 600; line-height: 1.3; color: var(--ink); }
   .prose :global(h2 + *), .prose :global(h3 + *) { margin-top: 0.6em; }
   .prose :global(a) { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -114,7 +114,7 @@ const jsonLd = {
   .prose :global(th), .prose :global(td) { text-align: left; padding: 0.55em 0.7em; border-bottom: 1px solid var(--line); }
   .prose :global(th) { font-family: var(--mono); font-weight: 400; font-size: 0.85em; color: #8a8a87; }
 
-  .end { max-width: 68ch; margin-top: calc(56 * var(--u)); padding-top: calc(22 * var(--u)); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; font-family: var(--mono); font-size: calc(13.5 * var(--u)); }
+  .end { max-width: 68ch; margin-top: calc(56 * var(--u)); padding-top: calc(22 * var(--u)); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; font-size: calc(14.5 * var(--u)); }
   .tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: calc(14 * var(--u)); }
   .tags a, .back { color: #8a8a87; text-decoration: none; }
   .tags a:hover, .back:hover { color: var(--ink); }
@@ -122,10 +122,12 @@ const jsonLd = {
   .about { position: sticky; top: calc(40 * var(--u)); align-self: start; display: grid; gap: calc(10 * var(--u)); padding-top: calc(6 * var(--u)); }
   .about-mark {
     width: calc(72 * var(--u)); padding: calc(14 * var(--u)); box-sizing: content-box;
-    background-image: linear-gradient(#1c2025 1px, transparent 1px), linear-gradient(90deg, #1c2025 1px, transparent 1px);
-    background-size: calc(25 * var(--u)) calc(25 * var(--u)); border: 1px solid #1c2025;
+    /* The same tile the home page's projects sit on. */
+    background-color: #070708; border-radius: calc(12 * var(--u)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: calc(25 * var(--u)) calc(25 * var(--u)); background-position: center;
   }
-  .about-name { margin: calc(6 * var(--u)) 0 0; font-size: calc(22 * var(--u)); font-weight: 600; }
+  .about-name { margin: calc(6 * var(--u)) 0 0; font-family: var(--serif); font-size: calc(22 * var(--u)); font-weight: 400; }
   .about-desc { margin: 0; font-size: calc(15 * var(--u)); line-height: 1.45; color: #9a9a97; }
   .about-link { font-family: var(--mono); font-size: calc(13.5 * var(--u)); color: var(--accent); text-decoration: none; }
   .about-link:hover { text-decoration: underline; text-underline-offset: 3px; }

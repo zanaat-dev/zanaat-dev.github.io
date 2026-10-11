@@ -61,13 +61,12 @@ own site, sharing one place where the work is explained in writing.
   per post, an `llms.txt` index for agents, a sitemap.
 - Static only: no server, no third-party runtime requests, no tracking scripts unless the user
   decides otherwise.
-- **Signature interaction (user, 2026-10-11): "Build the mark".** The home page carries a small
-  game: a Three.js grid of cubes in the marks' module grammar; the visitor adds or removes cells,
-  and when the arrangement matches the Zanaat, Lonca or Baron mark the cubes lock into place and
-  that project's card opens. A move counter and a one-click "solve" keep it optional. Content
-  (headline, projects, posts) never waits on the game: it renders first, readable without it, and
-  the 3D scene loads after first paint, with a static SVG fallback for reduced motion, no WebGL or
-  weak devices.
+- **Signature interaction (user, 2026-10-11, replacing the "Build the mark" game the same day):
+  one crafted object the visitor can turn.** The hero holds a single 3D object made from the marks'
+  module grammar (the Zanaat Z built from cube modules of mixed dark materials, lit by one beam);
+  the visitor drags to rotate it. No game, no move counter. Content (headline, projects, posts)
+  never waits on it: it renders first, readable without it, and the 3D scene loads after first
+  paint, with a static image fallback for reduced motion, no WebGL or weak devices.
 - Undecided: a newsletter (none exists; do not show a signup until one does), comments (none).
 
 ## Brand Commitments
@@ -98,6 +97,11 @@ own site, sharing one place where the work is explained in writing.
 - Zanaat brand assets go under `zanaat-dev/.github/brand/zanaat/`; coordinate with the Lonca
   maintainer session before restructuring `brand/`.
 - The user's own employer and its products are not named (carried over from the Baron brief).
+- **Standing preference (user, 2026-10-11): the developer-tool canon, played straight.** The whole
+  site (home and blog) follows the way resend.com is designed: deep black, one lit 3D object, an
+  elegant serif display headline, quiet grotesk text, refined pills, buttons and micro-details.
+  Quality bar: Resend and Raycast (finish level, not composition). Chosen over the bespoke
+  directions on purpose; execute it without irony or smuggled quirk.
 
 ## Evidence on Hand
 
