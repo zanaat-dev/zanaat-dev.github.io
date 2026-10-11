@@ -1,0 +1,4 @@
+# pnpm 11 refuses to install until every dependency with a build script has been ruled on. esbuild
+# ships its real binary as an optional platform package; its script is only a sanity check.
+allowBuilds:
+  esbuild: false

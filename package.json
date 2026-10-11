@@ -1,0 +1,23 @@
+{
+  "name": "zanaat-dev-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@fontsource/archivo": "5.3.0",
+    "@fontsource/dm-mono": "5.3.0",
+    "@types/three": "0.186.0",
+    "astro": "7.3.5"
+  },
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=22.12"
+  }
+}

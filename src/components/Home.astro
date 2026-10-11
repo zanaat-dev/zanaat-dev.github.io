@@ -1,0 +1,553 @@
+---
+import '../styles/global.css';
+import { type Lang, strings } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = strings[lang];
+const home = lang === 'en' ? '/' : '/tr/';
+const enHome = '/';
+const trHome = '/tr/';
+
+const projects = [
+  { id: 'lonca', name: 'Lonca', href: 'https://lonca.zanaat.dev/', host: 'lonca.zanaat.dev', logo: '/brand/lonca-logomark.svg', mark: '/brand/lonca-icon.svg', desc: t.projects.lonca },
+  { id: 'baron', name: 'Baron', href: 'https://baron.zanaat.dev/', host: 'baron.zanaat.dev', logo: null, mark: '/brand/baron.svg', desc: t.projects.baron },
+  { id: 'zanaat', name: 'Zanaat', href: 'https://github.com/zanaat-dev', host: 'zanaat-dev', logo: '/brand/zanaat.svg', mark: '/brand/zanaat-mark.svg', desc: t.projects.zanaat },
+] as const;
+const targets = [
+  { id: 'zanaat', name: 'Zanaat', mark: '/brand/zanaat-mark.svg' },
+  { id: 'lonca', name: 'Lonca', mark: '/brand/lonca-icon.svg' },
+  { id: 'baron', name: 'Baron', mark: '/brand/baron.svg' },
+] as const;
+const catalogue = [
+  {
+    id: 'lonca', name: 'Lonca', mark: '/brand/lonca-icon.svg', desc: t.projects.lonca, more: t.projectMore.lonca,
+    packages: ['@lonca/core', '@lonca/trendyol', '@lonca/hepsiburada'],
+    links: [
+      { label: t.links.docs, href: 'https://lonca.zanaat.dev/', text: 'lonca.zanaat.dev' },
+      { label: t.links.code, href: 'https://github.com/zanaat-dev/lonca', text: 'zanaat-dev/lonca' },
+      { label: t.links.npm, href: 'https://www.npmjs.com/org/lonca', text: '@lonca' },
+    ],
+  },
+  {
+    id: 'baron', name: 'Baron', mark: '/brand/baron.svg', desc: t.projects.baron, more: t.projectMore.baron,
+    packages: ['@zanaat/baron-cli', '@zanaat/baron-mcp-server'],
+    links: [
+      { label: t.links.site, href: 'https://baron.zanaat.dev/', text: 'baron.zanaat.dev' },
+      { label: t.links.code, href: 'https://github.com/zanaat-dev/baron', text: 'zanaat-dev/baron' },
+      { label: t.links.npm, href: 'https://www.npmjs.com/org/zanaat', text: '@zanaat' },
+    ],
+  },
+] as const;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
+    <link rel="icon" href="/brand/zanaat-mark.svg" type="image/svg+xml" />
+    <link rel="alternate" hreflang="en" href="https://zanaat.dev/" />
+    <link rel="alternate" hreflang="tr" href="https://zanaat.dev/tr/" />
+    <link rel="alternate" hreflang="x-default" href="https://zanaat.dev/" />
+    <link rel="canonical" href={`https://zanaat.dev${home}`} />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={`https://zanaat.dev${home}`} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'tr_TR'} />
+    <meta name="theme-color" content="#0e0f11" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="nav">
+        <a class="logo" href={home} aria-label="Zanaat"><img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" /></a>
+        <nav class="links" aria-label={t.nav.label}>
+          <a href="#projects">{t.nav.projects}</a>
+          <a href="#writing">{t.nav.writing}</a>
+          <a href="https://github.com/zanaat-dev">{t.nav.github}</a>
+          <span class="lang">
+            {lang === 'en' ? <span aria-current="page">EN</span> : <a href={enHome} hreflang="en" lang="en">EN</a>}
+            <span class="slash" aria-hidden="true">/</span>
+            {lang === 'tr' ? <span aria-current="page">TR</span> : <a href={trHome} hreflang="tr" lang="tr">TR</a>}
+          </span>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="headline">
+          <h1 id="headline">{t.headline.map((line, i) => <span>{i ? ` ${line}` : line}</span>)}</h1>
+          <p class="subhead">{t.subhead}</p>
+
+          <div class="field" data-field>
+            <canvas aria-label={t.fieldLabel} role="img"></canvas>
+            <div class="field-still" aria-hidden="true">
+              {targets.map((m) => <img src={m.mark} alt="" />)}
+            </div>
+          </div>
+
+          <div class="turn" data-turn hidden>
+            <p class="turn-title">{t.turn.title}</p>
+            <p class="turn-body">{t.turn.body}</p>
+            <button type="button" class="turn-close" data-turn-close>{t.turn.close}</button>
+          </div>
+
+          <div class="cards" data-cards>
+            {
+              projects.map((p, i) => (
+                <article class="card" data-card={p.id} data-state={i === 0 ? 'open' : i === 1 ? 'next' : 'rest'}>
+                  <h2 class="card-name">
+                    {p.logo ? <img src={p.logo} alt={p.name} /> : <span class="card-lockup"><img src={p.mark} alt="" />{p.name}</span>}
+                  </h2>
+                  <p class="card-desc">{p.desc}</p>
+                  <a class={`card-link ${p.id}`} href={p.href}>{p.host} <svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 6h8M6.5 3l3 3-3 3" /></svg></a>
+                </article>
+              ))
+            }
+          </div>
+
+          <div class="bar" role="group" aria-label={t.bar.label}>
+            <span class="bar-label" data-bar-label>{t.bar.label}</span>
+            <div class="targets">
+              {
+                targets.map((m) => (
+                  <button type="button" class="target" data-target={m.id} aria-pressed={m.id === 'lonca' ? 'true' : 'false'} aria-label={t.bar.target(m.name)}>
+                    <img src={m.mark} alt="" />
+                  </button>
+                ))
+              }
+            </div>
+            <span class="moves"><span class="moves-word">{t.bar.moves}</span> <output data-moves>0</output></span>
+            <span class="dot" aria-hidden="true"></span>
+            <button type="button" class="act" data-solve>{t.bar.solve}</button>
+            <span class="dot" aria-hidden="true"></span>
+            <button type="button" class="act" data-reset>{t.bar.reset}</button>
+            <p class="sr-only" data-status aria-live="polite">{t.bar.hint}</p>
+          </div>
+        </section>
+
+        <section class="writing" id="writing" aria-labelledby="writing-h">
+          <h2 id="writing-h" class="writing-label">{t.writing}</h2>
+          <ul class="posts">
+            {
+              t.posts.map((p) => (
+                <li>
+                  <span class="post-title" lang={p.lang}>{p.title}</span>
+                  <span class="post-meta">
+                    <img src={p.project === 'lonca' ? '/brand/lonca-icon.svg' : '/brand/baron.svg'} alt="" />
+                    {p.project === 'lonca' ? 'Lonca' : 'Baron'} · {p.lang.toUpperCase()} · {t.soon}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="projects" id="projects" aria-labelledby="projects-h">
+          <div class="projects-head">
+            <h2 id="projects-h">{t.projectsTitle}</h2>
+            <p>{t.projectsLede}</p>
+          </div>
+          {
+            catalogue.map((p) => (
+              <article class={`project ${p.id}`}>
+                <div class="project-mark"><img src={p.mark} alt="" /></div>
+                <div class="project-body">
+                  <h3>{p.name}</h3>
+                  <p class="project-desc">{p.desc}</p>
+                  <p class="project-more">{p.more}</p>
+                  <ul class="packages" aria-label="npm">
+                    {p.packages.map((pkg) => <li>{pkg}</li>)}
+                  </ul>
+                </div>
+                <dl class="project-links">
+                  {
+                    p.links.map((l) => (
+                      <div>
+                        <dt>{l.label}</dt>
+                        <dd><a href={l.href}>{l.text}</a></dd>
+                      </div>
+                    ))
+                  }
+                </dl>
+              </article>
+            ))
+          }
+        </section>
+
+        <section class="open" aria-labelledby="open-h">
+          <h2 id="open-h">{t.openTitle}</h2>
+          <p>{t.openBody}</p>
+          <a href="https://github.com/zanaat-dev">{t.openLink} <svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 6h8M6.5 3l3 3-3 3" /></svg></a>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" />
+        <p>{t.footer}</p>
+        <ul>
+          <li><a href="https://github.com/zanaat-dev">GitHub</a></li>
+          <li><a href="mailto:hello@zanaat.dev">hello@zanaat.dev</a></li>
+          <li>{lang === 'en' ? <a href={trHome} hreflang="tr" lang="tr">Türkçe</a> : <a href={enHome} hreflang="en" lang="en">English</a>}</li>
+        </ul>
+      </footer>
+    </div>
+
+    <script>
+      import type { MarkId } from '../lib/marks';
+
+      const field = document.querySelector<HTMLElement>('[data-field]');
+      const canvas = field?.querySelector('canvas');
+      const movesOut = document.querySelector('[data-moves]');
+      const cards = [...document.querySelectorAll<HTMLElement>('[data-card]')];
+      const targets = [...document.querySelectorAll<HTMLButtonElement>('[data-target]')];
+      const order: MarkId[] = ['lonca', 'baron', 'zanaat'];
+
+      function openCard(id: MarkId) {
+        const i = order.indexOf(id);
+        for (const card of cards) {
+          const j = order.indexOf(card.dataset.card as MarkId);
+          card.dataset.state = j === i ? 'open' : j === (i + 1) % order.length ? 'next' : 'rest';
+        }
+      }
+
+      const barLabel = document.querySelector('[data-bar-label]');
+      const barDefault = barLabel?.textContent ?? '';
+      const built = new Set<MarkId>();
+      // The bar names the mark being built, so the outline on the board always has a caption.
+      function pick(id: MarkId) {
+        for (const b of targets) {
+          const on = b.dataset.target === id;
+          b.setAttribute('aria-pressed', String(on));
+          if (on && barLabel) barLabel.textContent = b.getAttribute('aria-label');
+        }
+      }
+
+      const webgl = (() => {
+        try {
+          const c = document.createElement('canvas');
+          return !!(c.getContext('webgl2') || c.getContext('webgl'));
+        } catch {
+          return false;
+        }
+      })();
+
+      async function start() {
+        if (!field || !canvas || !webgl) return;
+        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const { createPlayfield } = await import('../scripts/playfield');
+        const game = createPlayfield(
+          canvas,
+          {
+            onMoves: (n) => {
+              if (movesOut) movesOut.textContent = String(n);
+            },
+            onLocked: (id) => {
+              openCard(id);
+              field.dataset.locked = id;
+              built.add(id);
+              // A finished target retires its instructions: the panel closes and the next unbuilt
+              // mark becomes the target, until every mark has been built once.
+              if (id === game.target) {
+                if (id !== 'lonca' || built.size > 1) closeTurn();
+                const next = (['baron', 'zanaat', 'lonca'] as MarkId[]).find((m) => !built.has(m));
+                if (next && id !== 'lonca') {
+                  pick(next);
+                  game.setTarget(next);
+                } else if (!next) {
+                  for (const b of targets) b.setAttribute('aria-pressed', String(b.dataset.target === id));
+                  if (barLabel) barLabel.textContent = barDefault;
+                }
+              }
+            },
+            onUnlocked: () => {
+              delete field.dataset.locked;
+            },
+          },
+          still,
+        );
+        field.dataset.live = '';
+        for (const b of targets)
+          b.addEventListener('click', () => {
+            const id = b.dataset.target as MarkId;
+            pick(id);
+            game.setTarget(id);
+          });
+        document.querySelector('[data-solve]')?.addEventListener('click', () => game.solve());
+        document.querySelector('[data-reset]')?.addEventListener('click', () => game.reset());
+        const turn = document.querySelector<HTMLElement>('[data-turn]');
+        const seen = (() => {
+          try {
+            return localStorage.getItem('zanaat.turn') === '1';
+          } catch {
+            return false;
+          }
+        })();
+        const closeTurn = () => {
+          if (turn) turn.hidden = true;
+          try {
+            localStorage.setItem('zanaat.turn', '1');
+          } catch {}
+        };
+        turn?.querySelector('[data-turn-close]')?.addEventListener('click', closeTurn);
+        canvas.addEventListener('pointerdown', closeTurn, { once: true });
+        // The opening move: the workshop's own mark rearranges into one of its tools, then it is the
+        // visitor's turn to build the next one, its outline already drawn on the board.
+        setTimeout(
+          () =>
+            game.solve('lonca', () => {
+              pick('baron');
+              game.setTarget('baron');
+              if (turn && !seen) turn.hidden = false;
+            }),
+          still ? 0 : 700,
+        );
+      }
+
+      if (document.readyState === 'complete') start();
+      else addEventListener('load', () => start(), { once: true });
+    </script>
+
+    <style>
+      /* The scale unit follows the page box, not the viewport, so a vertical scrollbar never pushes the layout sideways. */
+      .page { position: relative; width: 100%; max-width: 1600px; margin: 0 auto; overflow-x: clip; container-type: inline-size; }
+      .page > * { --u: calc(100cqw / 1024); }
+      .hero {
+        position: relative; height: calc(600 * var(--u)); overflow: hidden;
+      }
+      .hero > * { position: absolute; }
+
+      .nav { position: absolute; left: 0; top: 0; z-index: 2; width: 100%; height: calc(61 * var(--u)); border-bottom: 1px solid #1f2021; }
+      .logo { position: absolute; left: calc(50 * var(--u)); top: calc(18 * var(--u)); display: block; }
+      .logo img { display: block; width: calc(116 * var(--u)); height: auto; }
+      .links {
+        position: absolute; right: calc(50 * var(--u)); top: calc(22 * var(--u));
+        display: flex; align-items: center; gap: calc(21 * var(--u));
+        font-family: var(--mono); font-size: calc(15 * var(--u)); color: #8b8b8b;
+      }
+      .links a { text-decoration: none; transition: color 0.3s var(--ease); }
+      .links a:hover { color: var(--ink); }
+      .lang { display: inline-flex; gap: calc(6 * var(--u)); color: #8a8a87; }
+      .lang [aria-current] { color: var(--ink); }
+
+      h1 {
+        left: calc(50 * var(--u)); top: calc(92 * var(--u)); margin: 0;
+        font-size: calc(47.5 * var(--u)); font-weight: 600; line-height: calc(47 * var(--u)); letter-spacing: 0;
+      }
+      h1 span { display: block; }
+      .subhead {
+        left: calc(50 * var(--u)); top: calc(196 * var(--u)); margin: 0;
+        font-size: calc(24 * var(--u)); color: #868684;
+      }
+
+      .field { left: 0; top: calc(196 * var(--u)); width: 100%; height: calc(336 * var(--u)); }
+      .field canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s var(--ease); }
+      .field[data-live] canvas { opacity: 1; }
+      .field-still {
+        position: absolute; left: calc(250 * var(--u)); top: calc(90 * var(--u));
+        display: flex; gap: calc(48 * var(--u)); align-items: center; transition: opacity 0.6s var(--ease);
+      }
+      .field-still img { height: calc(110 * var(--u)); width: auto; }
+      .field[data-live] .field-still { opacity: 0; pointer-events: none; }
+
+      .cards { left: calc(798 * var(--u)); top: calc(226 * var(--u)); width: calc(226 * var(--u)); height: calc(231 * var(--u)); }
+      .card {
+        position: absolute; top: 0; left: 0; width: calc(207 * var(--u)); height: 100%;
+        padding: calc(17 * var(--u)) calc(18 * var(--u));
+        background: linear-gradient(180deg, #1b1c1e, #161718); border: 1px solid #26282b; border-radius: calc(10 * var(--u));
+        box-shadow: 0 calc(18 * var(--u)) calc(40 * var(--u)) rgba(0, 0, 0, 0.45);
+        display: flex; flex-direction: column;
+        transition: transform 0.7s var(--ease), opacity 0.5s var(--ease);
+      }
+      .card[data-state='next'] { transform: translateX(calc(210 * var(--u))); border-color: #3a3c40; background: #202224; }
+      .card[data-state='rest'] { transform: translateX(calc(240 * var(--u))); opacity: 0; }
+      .card-name { margin: 0; height: calc(42 * var(--u)); display: flex; align-items: center; }
+      .card-name img { height: calc(36 * var(--u)); width: auto; display: block; }
+      .card-lockup { display: flex; align-items: center; gap: calc(10 * var(--u)); font-size: calc(30 * var(--u)); font-weight: 600; }
+      .card-lockup img { height: calc(32 * var(--u)); }
+      .card-desc { margin: calc(20 * var(--u)) 0 0; font-size: calc(15.5 * var(--u)); line-height: calc(20 * var(--u)); color: #b2b2b0; }
+      .card-link {
+        margin-top: auto; padding-bottom: calc(2 * var(--u));
+        font-family: var(--mono); font-size: calc(14 * var(--u)); text-decoration: none; color: var(--lonca-ink); white-space: nowrap;
+      }
+      .card-link.baron { color: var(--baron); }
+      .card-link.zanaat { color: var(--ink-2); }
+      .card-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+      .arr { width: 0.78em; height: 0.78em; vertical-align: -0.05em; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: square; }
+
+      .turn {
+        left: calc(50 * var(--u)); top: calc(258 * var(--u)); width: calc(204 * var(--u)); z-index: 1;
+        display: grid; gap: calc(8 * var(--u)); padding: calc(14 * var(--u)) calc(15 * var(--u));
+        background: rgba(18, 19, 21, 0.92); border: 1px solid #2a2b2e; border-radius: calc(8 * var(--u));
+        animation: turn-in 0.7s var(--ease) both;
+      }
+      .turn[hidden] { display: none; }
+      .turn p { margin: 0; }
+      .turn-title { font-size: calc(16 * var(--u)); font-weight: 600; color: var(--ink); }
+      .turn-body { font-size: calc(13.5 * var(--u)); line-height: 1.45; color: #a9a9a6; }
+      .turn-close {
+        justify-self: start; margin-top: calc(4 * var(--u)); padding: 0; background: none; border: 0; cursor: pointer;
+        font-family: var(--mono); font-size: calc(13 * var(--u)); color: var(--ink-2);
+      }
+      .turn-close:hover { text-decoration: underline; text-underline-offset: 3px; }
+      @keyframes turn-in { from { opacity: 0; transform: translateY(6px); } }
+      @media (prefers-reduced-motion: reduce) { .turn { animation: none; } }
+
+      .bar {
+        left: calc(52 * var(--u)); top: calc(523 * var(--u)); width: calc(920 * var(--u)); height: calc(50 * var(--u));
+        display: flex; align-items: center; padding: 0 calc(13 * var(--u));
+        background: rgba(16, 17, 19, 0.88); border: 1px solid #26272a; border-radius: calc(7 * var(--u));
+        font-family: var(--mono); font-size: calc(15.5 * var(--u)); color: #8d8d8b;
+      }
+      .bar-label { text-transform: uppercase; color: #c8c8c6; font-weight: 500; letter-spacing: 0.01em; }
+      .targets { position: absolute; left: calc(400 * var(--u)); display: flex; gap: calc(4 * var(--u)); }
+      .target {
+        width: calc(37 * var(--u)); height: calc(36 * var(--u)); padding: 0; display: grid; place-items: center;
+        background: #17181a; border: 1px solid #25282c; border-radius: calc(7 * var(--u)); cursor: pointer;
+        transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+      }
+      .target img { width: calc(19 * var(--u)); height: auto; display: block; }
+      .target:hover { border-color: #3a3f45; }
+      .target[aria-pressed='true'] { border-color: #6a6b6e; background: #222326; }
+      .moves, .act { font-size: calc(14.5 * var(--u)); }
+      .moves { margin-left: auto; }
+      .moves output { color: #b9b9b7; }
+      .dot { width: calc(4 * var(--u)); height: calc(4 * var(--u)); border-radius: 50%; background: #5d5d5f; margin: 0 calc(8.5 * var(--u)); }
+      .act {
+        font-family: inherit; color: #d2d2d0; background: none; border: 0; padding: 0; cursor: pointer;
+        transition: color 0.3s var(--ease);
+      }
+      .act:hover { color: #fff; }
+
+      .writing { padding: calc(9 * var(--u)) calc(57 * var(--u)) 0; }
+      .writing-label { margin: 0; font-family: var(--mono); font-weight: 400; font-size: calc(16 * var(--u)); color: #8a8a87; }
+      .posts {
+        list-style: none; margin: calc(10 * var(--u)) 0 0; padding: 0;
+        display: grid; grid-template-columns: calc(465 * var(--u)) calc(420 * var(--u));
+      }
+      .posts li { max-width: calc(400 * var(--u)); display: grid; gap: calc(12 * var(--u)); align-content: start; }
+      .post-title { font-size: calc(25.5 * var(--u)); font-weight: 500; line-height: calc(27 * var(--u)); letter-spacing: 0.01em; }
+      .post-meta {
+        display: flex; align-items: center; gap: calc(8 * var(--u));
+        font-family: var(--mono); font-size: calc(13 * var(--u)); color: #8a8a87;
+      }
+      .post-meta img { width: calc(14 * var(--u)); height: auto; }
+
+      .projects { padding: calc(110 * var(--u)) calc(57 * var(--u)) 0; }
+      .projects-head { display: grid; grid-template-columns: calc(465 * var(--u)) 1fr; align-items: end; margin-bottom: calc(44 * var(--u)); }
+      .projects-head h2 { margin: 0; font-size: calc(40 * var(--u)); font-weight: 600; letter-spacing: -0.01em; line-height: 1.05; }
+      .projects-head p { margin: 0; max-width: 46ch; font-size: calc(17 * var(--u)); line-height: 1.5; color: #9a9a97; }
+      .project {
+        display: grid; grid-template-columns: calc(150 * var(--u)) calc(470 * var(--u)) 1fr; gap: calc(28 * var(--u));
+        padding: calc(36 * var(--u)) 0; border-top: 1px solid var(--line);
+      }
+      .project:last-child { border-bottom: 1px solid var(--line); }
+      .project-mark {
+        width: calc(120 * var(--u)); aspect-ratio: 1; display: grid; place-items: center;
+        /* The module grid every mark is drawn on. */
+        background-image: linear-gradient(#1c2025 1px, transparent 1px), linear-gradient(90deg, #1c2025 1px, transparent 1px);
+        background-size: calc(24 * var(--u)) calc(24 * var(--u)); border: 1px solid #1c2025;
+      }
+      .project-mark img { width: 60%; height: auto; }
+      .project h3 { margin: 0; font-size: calc(32 * var(--u)); font-weight: 600; letter-spacing: -0.01em; }
+      .project-desc { margin: calc(8 * var(--u)) 0 0; font-size: calc(19 * var(--u)); color: var(--ink); line-height: 1.35; }
+      .project-more { margin: calc(14 * var(--u)) 0 0; max-width: 60ch; font-size: calc(16 * var(--u)); line-height: 1.55; color: #9a9a97; }
+      .packages { list-style: none; margin: calc(18 * var(--u)) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: calc(6 * var(--u)) calc(18 * var(--u)); font-family: var(--mono); font-size: calc(13.5 * var(--u)); color: #b2b2b0; }
+      .project-links { margin: 0; display: grid; gap: calc(14 * var(--u)); align-content: start; }
+      .project-links div { display: grid; grid-template-columns: calc(58 * var(--u)) 1fr; gap: calc(12 * var(--u)); align-items: baseline; }
+      .project-links dt { font-family: var(--mono); font-size: calc(12.5 * var(--u)); color: #8a8a87; }
+      .project-links dd { margin: 0; font-family: var(--mono); font-size: calc(14.5 * var(--u)); }
+      .project-links a { text-decoration: none; text-underline-offset: 3px; }
+      .project-links a:hover { text-decoration: underline; }
+      .project.lonca .project-links a { color: var(--lonca-ink); }
+      .project.baron .project-links a { color: var(--baron); }
+
+      .open { padding: calc(100 * var(--u)) calc(57 * var(--u)) calc(110 * var(--u)); display: grid; grid-template-columns: calc(465 * var(--u)) 1fr; align-items: baseline; row-gap: calc(10 * var(--u)); }
+      .open h2 { margin: 0; grid-row: span 2; font-size: calc(40 * var(--u)); font-weight: 600; letter-spacing: -0.01em; }
+      .open p { margin: 0; font-size: calc(19 * var(--u)); color: #b2b2b0; }
+      .open a { font-family: var(--mono); font-size: calc(14.5 * var(--u)); color: var(--ink); text-decoration: none; }
+      .open a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+      .foot {
+        display: flex; flex-wrap: wrap; align-items: center; gap: calc(16 * var(--u)) calc(28 * var(--u));
+        padding: calc(28 * var(--u)) calc(57 * var(--u)) calc(40 * var(--u)); border-top: 1px solid var(--line);
+        font-family: var(--mono); font-size: calc(13 * var(--u)); color: #8a8a87;
+      }
+      .foot img { width: calc(92 * var(--u)); height: auto; }
+      .foot p { margin: 0; font-family: var(--sans); font-size: calc(14.5 * var(--u)); color: #9a9a97; }
+      .foot ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: calc(22 * var(--u)); }
+      .foot a { text-decoration: none; }
+      .foot a:hover { color: var(--ink); }
+
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+      /* Phones and narrow tablets: the hero leaves its measured stage and stacks; the board keeps its own frame. */
+      @media (max-width: 860px) {
+        .page > * { --u: 1px; }
+        .nav { position: relative; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; }
+        .logo, .links { position: static; }
+        .logo img { width: 104px; }
+        .links { gap: 16px; font-size: 14px; flex-wrap: wrap; }
+        .hero { height: auto; padding: 28px 20px 0; display: flex; flex-direction: column; gap: 14px; overflow: visible; }
+        .hero > * { position: relative; left: auto; top: auto; }
+        h1 { font-size: clamp(32px, 8.4vw, 44px); line-height: 1.04; letter-spacing: -0.01em; }
+        h1 span { display: inline; }
+        .subhead { font-size: 19px; }
+        .field { width: calc(100% + 40px); margin: 0 -20px; height: auto; aspect-ratio: 16 / 11; }
+        .field-still { left: 20px; top: 20%; }
+        .field-still img { height: 70px; }
+        .turn { order: 5; width: 100%; padding: 14px 16px; gap: 8px; border-radius: 8px; }
+        .turn-title { font-size: 16px; }
+        .turn-body { font-size: 14px; }
+        .turn-close { font-size: 13px; }
+        .cards { width: 100%; height: auto; }
+        .card { position: relative; width: 100%; height: auto; min-height: 0; gap: 14px; padding: 18px; border-radius: 10px; }
+        .card[data-state='next'], .card[data-state='rest'] { display: none; }
+        .card-name { height: auto; }
+        .card-name img { height: 30px; }
+        .card-lockup { font-size: 26px; }
+        .card-desc { margin: 0; font-size: 16px; line-height: 1.45; }
+        .card-link { font-size: 14px; }
+        .bar { width: 100%; height: auto; flex-wrap: wrap; gap: 12px 10px; padding: 12px; font-size: 13px; border-radius: 8px; }
+        .bar-label { width: 100%; }
+        .targets { position: static; gap: 6px; }
+        .target { width: 40px; height: 40px; border-radius: 8px; }
+        .target img { width: 20px; }
+        .moves, .act { font-size: 12.5px; }
+        .dot { margin: 0; }
+        .bar { column-gap: 8px; }
+        .writing { padding: 56px 20px 0; }
+        .writing-label { font-size: 14px; }
+        .posts { grid-template-columns: 1fr; gap: 26px; }
+        .posts li { max-width: none; gap: 10px; }
+        .post-title { font-size: 22px; line-height: 1.2; }
+        .post-meta { font-size: 12.5px; }
+        .post-meta img { width: 14px; }
+        .projects { padding: 72px 20px 0; }
+        .projects-head { grid-template-columns: 1fr; gap: 10px; margin-bottom: 28px; }
+        .projects-head h2, .open h2 { font-size: 32px; }
+        .projects-head p { font-size: 16px; }
+        .project { grid-template-columns: 1fr; gap: 18px; padding: 28px 0; }
+        .project-mark { width: 88px; background-size: 22px 22px; }
+        .project h3 { font-size: 28px; }
+        .project-desc { font-size: 17px; }
+        .project-more { font-size: 15.5px; }
+        .packages { font-size: 12.5px; gap: 6px 14px; }
+        .project-links div { grid-template-columns: 64px 1fr; }
+        .project-links dt { font-size: 12px; }
+        .project-links dd { font-size: 14px; overflow-wrap: anywhere; }
+        .open { grid-template-columns: 1fr; padding: 72px 20px 72px; }
+        .open h2 { grid-row: auto; }
+        .open p { font-size: 17px; }
+        .open a { font-size: 14px; }
+        .foot { padding: 24px 20px 32px; font-size: 12.5px; }
+        .foot img { width: 84px; }
+        .foot ul { margin-left: 0; width: 100%; flex-wrap: wrap; }
+      }
+    </style>
+  </body>
+</html>
