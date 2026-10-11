@@ -1,0 +1,42 @@
+---
+import { type Lang, strings } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+}
+
+const { lang, alternates } = Astro.props;
+const t = strings[lang];
+const feed = lang === 'en' ? '/blog/rss.xml' : '/tr/blog/rss.xml';
+---
+
+<footer class="foot">
+  <img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" />
+  <p>{t.footer}</p>
+  <ul>
+    <li><a href="https://github.com/zanaat-dev">GitHub</a></li>
+    <li><a href={feed}>RSS</a></li>
+    <li><a href="mailto:hello@zanaat.dev">hello@zanaat.dev</a></li>
+    <li>{lang === 'en' ? <a href={alternates.tr} hreflang="tr" lang="tr">Türkçe</a> : <a href={alternates.en} hreflang="en" lang="en">English</a>}</li>
+  </ul>
+</footer>
+
+<style>
+  .foot {
+    display: flex; flex-wrap: wrap; align-items: center; gap: calc(16 * var(--u)) calc(28 * var(--u));
+    padding: calc(28 * var(--u)) calc(57 * var(--u)) calc(40 * var(--u)); border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: calc(13 * var(--u)); color: #8a8a87;
+  }
+  .foot img { width: calc(92 * var(--u)); height: auto; }
+  .foot p { margin: 0; font-family: var(--sans); font-size: calc(14.5 * var(--u)); color: #9a9a97; }
+  .foot ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: calc(22 * var(--u)); }
+  .foot a { text-decoration: none; }
+  .foot a:hover { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .foot { padding: 24px 20px 32px; font-size: 12.5px; }
+    .foot img { width: 84px; }
+    .foot ul { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  }
+</style>

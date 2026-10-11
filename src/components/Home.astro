@@ -1,6 +1,7 @@
 ---
-import '../styles/global.css';
+import Base from '../layouts/Base.astro';
 import { type Lang, strings } from '../lib/i18n';
+import { allPosts, blogHome, formatDate, isPublished, PROJECTS as POST_PROJECTS, postPath } from '../lib/posts';
 
 interface Props {
   lang: Lang;
@@ -11,6 +12,7 @@ const t = strings[lang];
 const home = lang === 'en' ? '/' : '/tr/';
 const enHome = '/';
 const trHome = '/tr/';
+const latest = (await allPosts()).slice(0, 2);
 
 const projects = [
   { id: 'lonca', name: 'Lonca', href: 'https://lonca.zanaat.dev/', host: 'lonca.zanaat.dev', logo: '/brand/lonca-logomark.svg', mark: '/brand/lonca-icon.svg', desc: t.projects.lonca },
@@ -44,39 +46,7 @@ const catalogue = [
 ] as const;
 ---
 
-<!doctype html>
-<html lang={lang}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t.title}</title>
-    <meta name="description" content={t.description} />
-    <link rel="icon" href="/brand/zanaat-mark.svg" type="image/svg+xml" />
-    <link rel="alternate" hreflang="en" href="https://zanaat.dev/" />
-    <link rel="alternate" hreflang="tr" href="https://zanaat.dev/tr/" />
-    <link rel="alternate" hreflang="x-default" href="https://zanaat.dev/" />
-    <link rel="canonical" href={`https://zanaat.dev${home}`} />
-    <meta property="og:title" content={t.title} />
-    <meta property="og:description" content={t.description} />
-    <meta property="og:url" content={`https://zanaat.dev${home}`} />
-    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'tr_TR'} />
-    <meta name="theme-color" content="#0e0f11" />
-  </head>
-  <body>
-    <div class="page">
-      <header class="nav">
-        <a class="logo" href={home} aria-label="Zanaat"><img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" /></a>
-        <nav class="links" aria-label={t.nav.label}>
-          <a href="#projects">{t.nav.projects}</a>
-          <a href="#writing">{t.nav.writing}</a>
-          <a href="https://github.com/zanaat-dev">{t.nav.github}</a>
-          <span class="lang">
-            {lang === 'en' ? <span aria-current="page">EN</span> : <a href={enHome} hreflang="en" lang="en">EN</a>}
-            <span class="slash" aria-hidden="true">/</span>
-            {lang === 'tr' ? <span aria-current="page">TR</span> : <a href={trHome} hreflang="tr" lang="tr">TR</a>}
-          </span>
-        </nav>
-      </header>
+<Base lang={lang} title={t.title} description={t.description} path={home} alternates={{ en: enHome, tr: trHome }} overlayNav>
 
       <main>
         <section class="hero" aria-labelledby="headline">
@@ -131,15 +101,19 @@ const catalogue = [
         </section>
 
         <section class="writing" id="writing" aria-labelledby="writing-h">
-          <h2 id="writing-h" class="writing-label">{t.writing}</h2>
+          <h2 id="writing-h" class="writing-label"><a href={blogHome(lang)}>{t.writing}</a></h2>
           <ul class="posts">
             {
-              t.posts.map((p) => (
+              latest.map((p) => (
                 <li>
-                  <span class="post-title" lang={p.lang}>{p.title}</span>
+                  {isPublished(p) ? (
+                    <a class="post-title" href={postPath(p)} lang={p.data.lang}>{p.data.title}</a>
+                  ) : (
+                    <span class="post-title" lang={p.data.lang}>{p.data.title}</span>
+                  )}
                   <span class="post-meta">
-                    <img src={p.project === 'lonca' ? '/brand/lonca-icon.svg' : '/brand/baron.svg'} alt="" />
-                    {p.project === 'lonca' ? 'Lonca' : 'Baron'} · {p.lang.toUpperCase()} · {t.soon}
+                    <img src={POST_PROJECTS[p.data.project].mark} alt="" />
+                    {POST_PROJECTS[p.data.project].name} · {p.data.lang.toUpperCase()} · {isPublished(p) ? formatDate(p.data.date, lang) : t.soon}
                   </span>
                 </li>
               ))
@@ -186,16 +160,7 @@ const catalogue = [
         </section>
       </main>
 
-      <footer class="foot">
-        <img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" />
-        <p>{t.footer}</p>
-        <ul>
-          <li><a href="https://github.com/zanaat-dev">GitHub</a></li>
-          <li><a href="mailto:hello@zanaat.dev">hello@zanaat.dev</a></li>
-          <li>{lang === 'en' ? <a href={trHome} hreflang="tr" lang="tr">Türkçe</a> : <a href={enHome} hreflang="en" lang="en">English</a>}</li>
-        </ul>
-      </footer>
-    </div>
+
 
     <script>
       import type { MarkId } from '../lib/marks';
@@ -313,26 +278,11 @@ const catalogue = [
     </script>
 
     <style>
-      /* The scale unit follows the page box, not the viewport, so a vertical scrollbar never pushes the layout sideways. */
-      .page { position: relative; width: 100%; max-width: 1600px; margin: 0 auto; overflow-x: clip; container-type: inline-size; }
-      .page > * { --u: calc(100cqw / 1024); }
       .hero {
         position: relative; height: calc(600 * var(--u)); overflow: hidden;
       }
       .hero > * { position: absolute; }
 
-      .nav { position: absolute; left: 0; top: 0; z-index: 2; width: 100%; height: calc(61 * var(--u)); border-bottom: 1px solid #1f2021; }
-      .logo { position: absolute; left: calc(50 * var(--u)); top: calc(18 * var(--u)); display: block; }
-      .logo img { display: block; width: calc(116 * var(--u)); height: auto; }
-      .links {
-        position: absolute; right: calc(50 * var(--u)); top: calc(22 * var(--u));
-        display: flex; align-items: center; gap: calc(21 * var(--u));
-        font-family: var(--mono); font-size: calc(15 * var(--u)); color: #8b8b8b;
-      }
-      .links a { text-decoration: none; transition: color 0.3s var(--ease); }
-      .links a:hover { color: var(--ink); }
-      .lang { display: inline-flex; gap: calc(6 * var(--u)); color: #8a8a87; }
-      .lang [aria-current] { color: var(--ink); }
 
       h1 {
         left: calc(50 * var(--u)); top: calc(92 * var(--u)); margin: 0;
@@ -430,6 +380,10 @@ const catalogue = [
         display: grid; grid-template-columns: calc(465 * var(--u)) calc(420 * var(--u));
       }
       .posts li { max-width: calc(400 * var(--u)); display: grid; gap: calc(12 * var(--u)); align-content: start; }
+      a.post-title { text-decoration: none; }
+      a.post-title:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+      .writing-label a { text-decoration: none; }
+      .writing-label a:hover { color: var(--ink); }
       .post-title { font-size: calc(25.5 * var(--u)); font-weight: 500; line-height: calc(27 * var(--u)); letter-spacing: 0.01em; }
       .post-meta {
         display: flex; align-items: center; gap: calc(8 * var(--u));
@@ -472,26 +426,11 @@ const catalogue = [
       .open a { font-family: var(--mono); font-size: calc(14.5 * var(--u)); color: var(--ink); text-decoration: none; }
       .open a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-      .foot {
-        display: flex; flex-wrap: wrap; align-items: center; gap: calc(16 * var(--u)) calc(28 * var(--u));
-        padding: calc(28 * var(--u)) calc(57 * var(--u)) calc(40 * var(--u)); border-top: 1px solid var(--line);
-        font-family: var(--mono); font-size: calc(13 * var(--u)); color: #8a8a87;
-      }
-      .foot img { width: calc(92 * var(--u)); height: auto; }
-      .foot p { margin: 0; font-family: var(--sans); font-size: calc(14.5 * var(--u)); color: #9a9a97; }
-      .foot ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: calc(22 * var(--u)); }
-      .foot a { text-decoration: none; }
-      .foot a:hover { color: var(--ink); }
 
       .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
       /* Phones and narrow tablets: the hero leaves its measured stage and stacks; the board keeps its own frame. */
       @media (max-width: 860px) {
-        .page > * { --u: 1px; }
-        .nav { position: relative; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; }
-        .logo, .links { position: static; }
-        .logo img { width: 104px; }
-        .links { gap: 16px; font-size: 14px; flex-wrap: wrap; }
         .hero { height: auto; padding: 28px 20px 0; display: flex; flex-direction: column; gap: 14px; overflow: visible; }
         .hero > * { position: relative; left: auto; top: auto; }
         h1 { font-size: clamp(32px, 8.4vw, 44px); line-height: 1.04; letter-spacing: -0.01em; }
@@ -544,10 +483,6 @@ const catalogue = [
         .open h2 { grid-row: auto; }
         .open p { font-size: 17px; }
         .open a { font-size: 14px; }
-        .foot { padding: 24px 20px 32px; font-size: 12.5px; }
-        .foot img { width: 84px; }
-        .foot ul { margin-left: 0; width: 100%; flex-wrap: wrap; }
       }
     </style>
-  </body>
-</html>
+</Base>

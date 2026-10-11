@@ -30,3 +30,23 @@ body {
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 html { scrollbar-color: #2c3036 var(--ground); }
+
+/* The scale unit follows the page box, not the viewport, so a vertical scrollbar never pushes the layout sideways. */
+.page { position: relative; width: 100%; max-width: 1600px; margin: 0 auto; overflow-x: clip; container-type: inline-size; }
+.page > * { --u: calc(100cqw / 1024); }
+@media (max-width: 860px) { .page > * { --u: 1px; } }
+
+/* Shiki css-variables theme: code in the site palette, accent-free so it sits under any project. */
+:root {
+  --astro-code-foreground: #d8d6d0;
+  --astro-code-background: #141517;
+  --astro-code-token-constant: #e6d7b8;
+  --astro-code-token-string: #c5d1b2;
+  --astro-code-token-comment: #8e8d88;
+  --astro-code-token-keyword: #b9c3d6;
+  --astro-code-token-parameter: #e3e1db;
+  --astro-code-token-function: #f0efea;
+  --astro-code-token-string-expression: #c5d1b2;
+  --astro-code-token-punctuation: #9a9994;
+  --astro-code-token-link: #d8d6d0;
+}

@@ -23,6 +23,29 @@ mark is drawn on one module grid (`src/lib/marks.ts`), and building a project's 
 page reads fine without it: the game loads after first paint, and reduced motion or a browser without
 WebGL gets the static marks instead.
 
+## Writing
+
+Posts live in `src/content/posts/` as Markdown, one file per post, in English or Turkish:
+
+```yaml
+---
+title: Why your coding agent shouldn’t know what ‘Active’ means
+description: One sentence for lists, feeds and share cards.
+date: 2026-10-14
+lang: en            # en | tr
+project: baron      # lonca | baron | zanaat
+tags: [agents]
+status: published   # soon lists it without a page
+translation: other-slug   # optional: the same post in the other language
+---
+```
+
+The file name is the URL: `/blog/<file-name>/`. Each post gets a share image at `/og/<file-name>.png`.
+Feeds: `/blog/rss.xml` and `/blog/feed.json`, and per project or tag `/blog/tags/<tag>/rss.xml` and
+`/blog/tags/<tag>/feed.json` (Turkish interface under `/tr/blog/`). `/llms.txt` lists the projects
+and every published post for agents. Publish here first; syndicate to Medium or dev.to afterwards with
+this page as the canonical URL.
+
 ## Brand
 
 The marks in `public/brand/` are the real ones and stay single-colour: `zanaat.svg` (the Zanaat
