@@ -17,16 +17,17 @@ export const strings = {
     projectsTitle: 'Projects',
     projectsLede: 'Each tool has its own site and its own mark, drawn on the same grid.',
     projects: {
-      lonca: 'Type-safe TypeScript SDKs for Turkish e‑commerce marketplaces',
+      lonca: 'An open-source marketplace integrator for Turkish sellers. No yearly licence.',
       baron: 'Work orchestration for AI coding agents',
       zanaat: 'The workshop itself: this site and every repository',
     },
     projectMore: {
-      lonca: 'Trendyol and Hepsiburada today, n11 on the way. One interface for products, orders, inventory and webhooks.',
+      lonca:
+        'The engine is open source and works with Trendyol and Hepsiburada today; n11 is on the way. We’re building Lonca Panel on top of it, and it will be free for small sellers.',
       baron:
         'Lets a coding agent work your tracker and source control through one contract: Azure DevOps, GitHub, Jira and Linear. Ships as a CLI, an MCP server and a Claude Code plugin.',
     },
-    links: { site: 'Site', docs: 'Docs', code: 'GitHub', npm: 'npm' },
+    links: { site: 'Site', code: 'GitHub', npm: 'npm' },
     openTitle: 'Open by default',
     openBody: 'Every line is public. Read the code, open an issue, send a pull request.',
     openLink: 'github.com/zanaat-dev',
@@ -64,16 +65,17 @@ export const strings = {
     projectsTitle: 'Projeler',
     projectsLede: 'Her aracın kendi sitesi ve aynı ızgarada çizilmiş kendi işareti var.',
     projects: {
-      lonca: 'Türk e‑ticaret pazaryerleri için tip güvenli TypeScript SDK’ları',
+      lonca: 'Türk pazaryeri satıcıları için açık kaynak motorlu entegratör. Yıllık lisans yok.',
       baron: 'AI kodlama ajanları için iş orkestrasyonu',
       zanaat: 'Atölyenin kendisi: bu site ve tüm depolar',
     },
     projectMore: {
-      lonca: 'Bugün Trendyol ve Hepsiburada, yolda n11. Ürün, sipariş, stok ve webhook için tek arayüz.',
+      lonca:
+        'Motoru açık kaynak; bugün Trendyol ve Hepsiburada ile çalışıyor, n11 yolda. Üstüne Lonca Panel’i kuruyoruz; küçük satıcıya ücretsiz olacak.',
       baron:
         'Kodlama ajanının iş takibini ve kaynak kontrolünü tek bir sözleşmeyle yürütmesini sağlar: Azure DevOps, GitHub, Jira ve Linear. CLI, MCP sunucusu ve Claude Code eklentisi olarak gelir.',
     },
-    links: { site: 'Site', docs: 'Doküman', code: 'GitHub', npm: 'npm' },
+    links: { site: 'Site', code: 'GitHub', npm: 'npm' },
     openTitle: 'Varsayılan olarak açık',
     openBody: 'Her satır herkese açık. Kodu oku, issue aç, pull request gönder.',
     openLink: 'github.com/zanaat-dev',
