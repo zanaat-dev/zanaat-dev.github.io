@@ -21,33 +21,48 @@ const blog = lang === 'en' ? '/blog/' : '/tr/blog/';
     <a href={`${home}#projects`}>{t.nav.projects}</a>
     <a href={blog}>{t.nav.writing}</a>
     <a href="https://github.com/zanaat-dev">{t.nav.github}</a>
+  </nav>
+  <div class="end">
     <span class="lang">
       {lang === 'en' ? <span aria-current="page">EN</span> : <a href={alternates.en} hreflang="en" lang="en">EN</a>}
       <span class="slash" aria-hidden="true">/</span>
       {lang === 'tr' ? <span aria-current="page">TR</span> : <a href={alternates.tr} hreflang="tr" lang="tr">TR</a>}
     </span>
-  </nav>
+    <a class="pill" href="https://github.com/zanaat-dev">GitHub</a>
+  </div>
 </header>
 
 <style>
-  .nav { position: relative; z-index: 2; width: 100%; height: calc(61 * var(--u)); border-bottom: 1px solid #1f2021; }
+  .nav { position: relative; z-index: 3; width: 100%; height: calc(56 * var(--u)); }
   .nav.overlay { position: absolute; left: 0; top: 0; }
-  .logo { position: absolute; left: calc(50 * var(--u)); top: calc(18 * var(--u)); display: block; }
-  .logo img { display: block; width: calc(116 * var(--u)); height: auto; }
+  .logo { position: absolute; left: calc(57 * var(--u)); top: calc(13 * var(--u)); display: block; }
+  .logo img { display: block; width: calc(115 * var(--u)); height: auto; }
   .links {
-    position: absolute; right: calc(50 * var(--u)); top: calc(22 * var(--u));
-    display: flex; align-items: center; gap: calc(21 * var(--u));
-    font-family: var(--mono); font-size: calc(15 * var(--u)); color: #8b8b8b;
+    position: absolute; left: calc(410 * var(--u)); top: calc(17 * var(--u));
+    display: flex; align-items: center; gap: calc(32 * var(--u));
+    font-size: calc(14 * var(--u)); line-height: calc(22 * var(--u)); color: #8e8e8f;
   }
-  .links a { text-decoration: none; transition: color 0.3s var(--ease); }
-  .links a:hover { color: var(--ink); }
-  .lang { display: inline-flex; gap: calc(6 * var(--u)); color: #8a8a87; }
+  .links a, .lang a { text-decoration: none; transition: color 0.25s var(--ease); }
+  .links a:hover, .lang a:hover { color: var(--ink); }
+  .end { position: absolute; right: calc(58 * var(--u)); top: calc(12 * var(--u)); display: flex; align-items: center; gap: calc(18 * var(--u)); }
+  .lang { display: inline-flex; gap: calc(4 * var(--u)); font-size: calc(13 * var(--u)); color: #8e8e8f; }
   .lang [aria-current] { color: var(--ink); }
+  .slash { color: #4a4a4c; }
+  .pill {
+    display: inline-flex; align-items: center; height: calc(31 * var(--u)); padding: 0 calc(14 * var(--u));
+    border-radius: 999px; background: #1a1a1c; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    font-size: calc(14 * var(--u)); font-weight: 500; color: #f2f2f0; text-decoration: none;
+    transition: background 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .pill:hover { background: #232326; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
 
   @media (max-width: 860px) {
-    .nav, .nav.overlay { position: relative; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; }
-    .logo, .links { position: static; }
-    .logo img { width: 104px; }
-    .links { gap: 16px; font-size: 14px; flex-wrap: wrap; }
+    .nav, .nav.overlay { position: relative; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 20px; }
+    .logo, .links, .end { position: static; transform: none; }
+    .logo img { width: 100px; }
+    .links { order: 3; width: 100%; gap: 20px; font-size: 14px; line-height: 20px; }
+    .end { gap: 12px; }
+    .lang { font-size: 14px; }
+    .pill { height: 34px; padding: 0 14px; font-size: 13.5px; }
   }
 </style>

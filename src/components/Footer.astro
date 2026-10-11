@@ -25,9 +25,10 @@ const feed = lang === 'en' ? '/blog/rss.xml' : '/tr/blog/rss.xml';
 <style>
   .foot {
     display: flex; flex-wrap: wrap; align-items: center; gap: calc(16 * var(--u)) calc(28 * var(--u));
-    padding: calc(28 * var(--u)) calc(57 * var(--u)) calc(40 * var(--u)); border-top: 1px solid var(--line);
-    font-family: var(--mono); font-size: calc(13 * var(--u)); color: #8a8a87;
+    padding: calc(28 * var(--u)) calc(57 * var(--u)) calc(40 * var(--u)); position: relative;
+    font-size: calc(14 * var(--u)); color: #8a8a87;
   }
+  .foot::before { content: ''; position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw; height: 1px; background: var(--line); }
   .foot img { width: calc(92 * var(--u)); height: auto; }
   .foot p { margin: 0; font-family: var(--sans); font-size: calc(14.5 * var(--u)); color: #9a9a97; }
   .foot ul { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; gap: calc(22 * var(--u)); }
