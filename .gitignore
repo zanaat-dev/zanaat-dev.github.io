@@ -1,0 +1,5 @@
+.impeccable/
+regions.json
+node_modules/
+dist/
+.astro/
