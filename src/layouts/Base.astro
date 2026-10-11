@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Nav from '../components/Nav.astro';
+import type { Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** This page's path, used for the canonical URL. */
+  path: string;
+  /** The same page in each language; a page that exists in one language only points both at itself. */
+  alternates: Record<Lang, string>;
+  /** A post syndicated elsewhere still names this page as the original. */
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  overlayNav?: boolean;
+}
+
+const { lang, title, description, path, alternates, canonical, ogImage = '/og/default.png', ogType = 'website', overlayNav = false } = Astro.props;
+const site = 'https://zanaat.dev';
+const feedEn = '/blog/rss.xml';
+const feedTr = '/tr/blog/rss.xml';
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/brand/zanaat-mark.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical ?? `${site}${path}`} />
+    <link rel="alternate" hreflang="en" href={`${site}${alternates.en}`} />
+    <link rel="alternate" hreflang="tr" href={`${site}${alternates.tr}`} />
+    <link rel="alternate" hreflang="x-default" href={`${site}${alternates.en}`} />
+    <link rel="alternate" type="application/rss+xml" title="Zanaat (English)" href={feedEn} />
+    <link rel="alternate" type="application/rss+xml" title="Zanaat (Türkçe)" href={feedTr} />
+    <meta property="og:site_name" content="Zanaat" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={`${site}${path}`} />
+    <meta property="og:image" content={`${site}${ogImage}`} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'tr_TR'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0e0f11" />
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="page">
+      <Nav lang={lang} alternates={alternates} overlay={overlayNav} />
+      <slot />
+      <Footer lang={lang} alternates={alternates} />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+---
+import BlogIndex from '../../../../../components/BlogIndex.astro';
+import { allTags } from '../../../../../lib/posts';
+
+export async function getStaticPaths() {
+  return (await allTags()).map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+---
+
+<BlogIndex lang="tr" tag={tag} />

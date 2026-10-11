@@ -1,0 +1,53 @@
+---
+import { type Lang, strings } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  /** The same page in each language, for the language switch. */
+  alternates: Record<Lang, string>;
+  /** On the home page the bar floats over the hero's measured stage. */
+  overlay?: boolean;
+}
+
+const { lang, alternates, overlay = false } = Astro.props;
+const t = strings[lang];
+const home = lang === 'en' ? '/' : '/tr/';
+const blog = lang === 'en' ? '/blog/' : '/tr/blog/';
+---
+
+<header class:list={['nav', { overlay }]}>
+  <a class="logo" href={home} aria-label="Zanaat"><img src="/brand/zanaat.svg" alt="Zanaat" width="573" height="150" /></a>
+  <nav class="links" aria-label={t.nav.label}>
+    <a href={`${home}#projects`}>{t.nav.projects}</a>
+    <a href={blog}>{t.nav.writing}</a>
+    <a href="https://github.com/zanaat-dev">{t.nav.github}</a>
+    <span class="lang">
+      {lang === 'en' ? <span aria-current="page">EN</span> : <a href={alternates.en} hreflang="en" lang="en">EN</a>}
+      <span class="slash" aria-hidden="true">/</span>
+      {lang === 'tr' ? <span aria-current="page">TR</span> : <a href={alternates.tr} hreflang="tr" lang="tr">TR</a>}
+    </span>
+  </nav>
+</header>
+
+<style>
+  .nav { position: relative; z-index: 2; width: 100%; height: calc(61 * var(--u)); border-bottom: 1px solid #1f2021; }
+  .nav.overlay { position: absolute; left: 0; top: 0; }
+  .logo { position: absolute; left: calc(50 * var(--u)); top: calc(18 * var(--u)); display: block; }
+  .logo img { display: block; width: calc(116 * var(--u)); height: auto; }
+  .links {
+    position: absolute; right: calc(50 * var(--u)); top: calc(22 * var(--u));
+    display: flex; align-items: center; gap: calc(21 * var(--u));
+    font-family: var(--mono); font-size: calc(15 * var(--u)); color: #8b8b8b;
+  }
+  .links a { text-decoration: none; transition: color 0.3s var(--ease); }
+  .links a:hover { color: var(--ink); }
+  .lang { display: inline-flex; gap: calc(6 * var(--u)); color: #8a8a87; }
+  .lang [aria-current] { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .nav, .nav.overlay { position: relative; height: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; }
+    .logo, .links { position: static; }
+    .logo img { width: 104px; }
+    .links { gap: 16px; font-size: 14px; flex-wrap: wrap; }
+  }
+</style>
