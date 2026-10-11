@@ -16,11 +16,13 @@ function wasm() {
   return ready;
 }
 
+// Latin and Latin Extended ship as separate files; the extended set has its own name so satori
+// falls back to it for Turkish letters (ğ, ş, İ) instead of dropping them.
 const fonts = [
   { name: 'Archivo', weight: 600 as const, data: file('@fontsource/archivo/files/archivo-latin-600-normal.woff') },
-  { name: 'Archivo', weight: 600 as const, data: file('@fontsource/archivo/files/archivo-latin-ext-600-normal.woff') },
+  { name: 'Archivo Ext', weight: 600 as const, data: file('@fontsource/archivo/files/archivo-latin-ext-600-normal.woff') },
   { name: 'Archivo', weight: 400 as const, data: file('@fontsource/archivo/files/archivo-latin-400-normal.woff') },
-  { name: 'Archivo', weight: 400 as const, data: file('@fontsource/archivo/files/archivo-latin-ext-400-normal.woff') },
+  { name: 'Archivo Ext', weight: 400 as const, data: file('@fontsource/archivo/files/archivo-latin-ext-400-normal.woff') },
   { name: 'DM Mono', weight: 400 as const, data: file('@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff') },
 ];
 
@@ -37,7 +39,7 @@ export async function ogImage({ title, description, mark, label }: Card): Promis
   const h = (type: string, style: Record<string, unknown>, children?: unknown) => ({ type, props: { style, children } });
   const tree = h(
     'div',
-    { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '64px 72px', background: '#0e0f11', color: '#ecebe7', fontFamily: 'Archivo' },
+    { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '64px 72px', background: '#0e0f11', color: '#ecebe7', fontFamily: 'Archivo, Archivo Ext' },
     [
       h('div', { display: 'flex', alignItems: 'center', gap: 18 }, [
         { type: 'img', props: { src: svgUri(mark), height: 56, style: { height: 56 } } },

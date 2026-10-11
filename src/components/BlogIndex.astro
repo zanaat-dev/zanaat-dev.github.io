@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { type Lang, strings } from '../lib/i18n';
-import { allPosts, blogHome, formatDate, isPublished, PROJECTS, postPath, tagPath, tagsOf } from '../lib/posts';
+import { allPosts, blogHome, forLang, formatDate, isPublished, PROJECTS, postPath, tagPath, tagsOf } from '../lib/posts';
 
 interface Props {
   lang: Lang;
@@ -13,7 +13,7 @@ const t = strings[lang].blog;
 const home = blogHome(lang);
 // Project tags read as the project's name; other tags stay as written.
 const tagLabel = tag ? (PROJECTS[tag as keyof typeof PROJECTS]?.name ?? tag) : undefined;
-const posts = (await allPosts()).filter((p) => !tag || tagsOf(p).includes(tag));
+const posts = forLang(await allPosts(), lang).filter((p) => !tag || tagsOf(p).includes(tag));
 const path = tag ? tagPath(lang, tag) : home;
 const alternates = { en: tag ? tagPath('en', tag) : blogHome('en'), tr: tag ? tagPath('tr', tag) : blogHome('tr') };
 const feedBase = tag ? `${home}tags/${tag}/` : home;
