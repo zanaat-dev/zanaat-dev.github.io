@@ -24,6 +24,11 @@ export async function publishedPosts(): Promise<Post[]> {
   return (await allPosts()).filter((p) => p.data.status === 'published');
 }
 
+/** A translated pair appears once in a list: the version in the page's language. */
+export function forLang(posts: Post[], lang: Lang): Post[] {
+  return posts.filter((p) => !(p.data.translation && p.data.lang !== lang && posts.some((q) => q.id === p.data.translation)));
+}
+
 export const isPublished = (p: Post) => p.data.status === 'published';
 export const postPath = (p: Post) => `/blog/${p.id}/`;
 
