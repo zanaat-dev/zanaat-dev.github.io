@@ -10,7 +10,7 @@ export async function GET() {
     '',
     '## Projects',
     '',
-    `- [Lonca](${PROJECTS.lonca.href}): type-safe TypeScript SDKs for Turkish e-commerce marketplaces (Trendyol, Hepsiburada; n11 on the way).`,
+    `- [Lonca](${PROJECTS.lonca.href}): type-safe TypeScript SDKs for Turkish e-commerce marketplaces (Trendyol, Hepsiburada and n11).`,
     `- [Baron](${PROJECTS.baron.href}): work orchestration for AI coding agents across Azure DevOps, GitHub, Jira and Linear, as a CLI, an MCP server and a Claude Code plugin. Docs index for agents: https://baron.zanaat.dev/llms.txt`,
     '- [Source](https://github.com/zanaat-dev): every repository',
     '',

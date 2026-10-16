@@ -23,7 +23,7 @@ export const strings = {
     },
     projectMore: {
       lonca:
-        'The engine is open source and works with Trendyol and Hepsiburada today; n11 is on the way. We’re building Lonca Panel on top of it, and it will be free for small sellers.',
+        'The engine is open source and works with Trendyol, Hepsiburada and n11. We’re building Lonca Panel on top of it, and it will be free for small sellers.',
       baron:
         'Lets a coding agent work your tracker and source control through one contract: Azure DevOps, GitHub, Jira and Linear. Ships as a CLI, an MCP server and a Claude Code plugin.',
     },
@@ -71,7 +71,7 @@ export const strings = {
     },
     projectMore: {
       lonca:
-        'Motoru açık kaynak; bugün Trendyol ve Hepsiburada ile çalışıyor, n11 yolda. Üstüne Lonca Panel’i kuruyoruz; küçük satıcıya ücretsiz olacak.',
+        'Motoru açık kaynak; Trendyol, Hepsiburada ve n11 ile çalışıyor. Üstüne Lonca Panel’i kuruyoruz; küçük satıcıya ücretsiz olacak.',
       baron:
         'Kodlama ajanının iş takibini ve kaynak kontrolünü tek bir sözleşmeyle yürütmesini sağlar: Azure DevOps, GitHub, Jira ve Linear. CLI, MCP sunucusu ve Claude Code eklentisi olarak gelir.',
     },
