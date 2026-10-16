@@ -40,7 +40,7 @@ own site, sharing one place where the work is explained in writing.
 ## Operating Context
 
 - Projects today: **Lonca** (type-safe TypeScript SDKs for Turkish e-commerce marketplaces:
-  Trendyol, Hepsiburada, n11 on the way; docs at lonca.zanaat.dev; npm scope `@lonca`) and
+  Trendyol, Hepsiburada and n11; docs at lonca.zanaat.dev; npm scope `@lonca`) and
   **Baron** (work orchestration for AI coding agents across Azure DevOps, GitHub, Jira and Linear;
   site at baron.zanaat.dev; npm scope `@zanaat`). More projects may follow.
 - Each project keeps its own subdomain site; zanaat.dev links to them and does not duplicate
@@ -105,8 +105,8 @@ own site, sharing one place where the work is explained in writing.
 
 ## Evidence on Hand
 
-- Published packages: Lonca on npm (`@lonca/*`, e.g. core 1.1.0, trendyol 1.2.2, hepsiburada
-  1.2.1); Baron on npm (`@zanaat/baron-*`) and in the official MCP Registry
+- Published packages: Lonca on npm (`@lonca/*`, e.g. core 1.1.0, trendyol 1.3.0, hepsiburada
+  1.3.5, n11 1.0.0); Baron on npm (`@zanaat/baron-*`) and in the official MCP Registry
   (`io.github.zanaat-dev/baron`).
 - Live sites: lonca.zanaat.dev, baron.zanaat.dev.
 - Open-source repositories under github.com/zanaat-dev.
